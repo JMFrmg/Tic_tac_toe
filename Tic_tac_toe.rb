@@ -1,5 +1,8 @@
+#Bienvenue dans mon script du jeu Tic_tac_toe
+#Bonne lecture!
 
-
+#La classe suivante crée des objects "carré"
+#Chaque objet généré à partir de la classe "carré" a un emplacement spécifique sur le plateau défini par sa position verticale et sa position horizontale
 class Square
 
 	def initialize(horizontal_position=1, vertical_position=1, played=false, player=1, square_high=8, square_width=14)
@@ -12,7 +15,7 @@ class Square
 		@lines_list = []	
 	end
 	
-
+	#La métrode suivante retourne la ligne du haut de chaque carré sous forme d'un string
 	def high_line
 		if @vertical_position == 1
 			return "_"*@square_width + " "
@@ -20,6 +23,8 @@ class Square
 			return ""
 		end
 	end
+
+	#La méthode suivante retourne sous forme de string les lignes de chaque carré comprises entre la première et la dernière ligne
 	def middle_line(line_number=1)
 
 		if @horizontal_position == 1
@@ -28,7 +33,7 @@ class Square
 			middle_line = " "*@square_width + "|"
 		end
 
-
+		#Le bloc suivant gère l'intégration des "X" et des "O" au sein de chaque carré
 		if @played && line_number > 1
 			if @player == 1 && line_number > 2
 				middle_line[line_number+2] = "\\"
@@ -47,10 +52,10 @@ class Square
 				end
 			end
 		end
-							
 		return middle_line
 	end
 
+	#La méthode suivante retoune la dernière ligne de chaque carré sous forme de string
 	def low_line		
 		if @horizontal_position == 1
 			return "|" + "_"*@square_width + "|"
@@ -60,6 +65,7 @@ class Square
 		
 	end
 
+	#La méthode suivante prend comem paramètre le numéro de la ligne et appelle les méthodes précédentes afin de renvoyer le bonne ligne du carré
 	def get_line(line_number)
 		if line_number == 1
 			return high_line()
@@ -72,9 +78,7 @@ class Square
 end
 
 
-
-
-
+#La classe suivante appelle la méthode Square et génère des objets(carrés) afin de créer le plateau
 class Board
 
 	def initialize(hash_des_coups, width=3, high=3)		
@@ -87,6 +91,7 @@ class Board
 		
 	end
 
+	#Création de chaque objet(carré) issu de la méthode square
 	def get_squares
 		@square1 = Square.new(horizontal_position=1, vertical_position=1, played=@hash_des_coups[1], joueur=@hash_des_coups[1])
 		@square2 = Square.new(horizontal_position=2, vertical_position=1, played=@hash_des_coups[2], joueur=@hash_des_coups[2])
@@ -100,6 +105,7 @@ class Board
 		return [@square1, @square2, @square3, @square4, @square5, @square6, @square7, @square8, @square9]		
 	end
 
+	#Création du plateau à partir des 9 object précedemment générés
 	def get_board
 
 		squares_list = get_squares
@@ -125,6 +131,7 @@ class Board
 
 end
 
+
 class Player
 	def initialize(player_name, player_number)
 		@player_name = player_name
@@ -138,6 +145,7 @@ class Player
 	end
 end
 
+#Classe qui va générer des objets dont la fonction est de gérer le déroulement de la partie
 class Game
 	def initialize
 		@game = Hash.new
@@ -146,6 +154,7 @@ class Game
 
 	end
 
+	#Début de partie
 	def begin
 		puts "\n Bienvenue dans le jeu Tic-tac-toe"
 		puts "\n Apuyez sur Entrer pour continuer"
@@ -162,6 +171,7 @@ class Game
 		puts "\n     7   8   9"
 	end
 
+	#La méthode méthode suivante génère un nouveau platau après chaque coup d'un joueur
 	def game_turn
 		puts "\n Tour #{@game_turn}"
 		print "\n #{@player1.player_name} quelle case voulez vous jouer?"
@@ -196,6 +206,8 @@ class Game
 		@game_turn += 1
 		@nombre_de_coups += 2
 	end
+
+	#La méthode suivante prévoit dans quel cas la boucle sera arrêtée pour cause de victoire
 	def victory
 		if (@game[1] == 1) && (@game[2] == 1) && (@game[3] == 1)
 			return true
@@ -232,6 +244,7 @@ class Game
 		end
 	end
 
+	#La méthode suivante prévoit le cas où toutes les cases seraient remplies et où personne n'aurait gagné
 	def match_nul
 		if @game.keys.length == 9
 			return true
@@ -241,6 +254,9 @@ class Game
 end
 
 
+
+
+#Corps du script
 game = Game.new
 game.begin
 
